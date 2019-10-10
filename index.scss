@@ -14,12 +14,54 @@ $col-white: #eee;
 }
 
 html {
-  font-size: 140%;
+  font-size: 120%;
 }
 
 body {
   margin: 0;
   padding: 0;
+  display: flex;
+
+  #lhs {
+    display: flex;
+    flex-direction: column;
+    
+    flex-grow: 1;
+    flex-basis: 0;
+    min-height: 100vh;
+
+    border-right: 2px solid $col-black;
+
+    // #ulhs,#llhs {
+    //   height: 50vh;
+    // }
+
+    #ulhs {
+      display: flex;
+      flex-direction: column;
+      height: 50vh;
+      flex-grow: 0;
+      
+      background: $col-orange;
+    }
+    .lhs-spacer {
+      flex-grow: 1;
+    }
+
+    #llhs {
+      display: flex;
+      flex-direction: column;
+
+      flex-grow: 1;
+    }
+  }
+
+
+
+  
+  #rhs {
+    flex-grow: 3;
+  }
 
   background: $col-white;
 
@@ -27,7 +69,7 @@ body {
 
   h1 {
     margin: 0;
-    padding-left: 1rem;
+    padding: 0 1rem;
     background: $col-orange;
     font-size: 3rem;
     text-shadow: -3px -3px 2px black;
@@ -46,12 +88,27 @@ p {
 }
 
 form {
-  display: flex;
+  margin: 1rem;
+  
   input {
     flex-grow: 1;
-
+    width: 100%;
+    font-size: 1.6rem;
     &.checkbox {
       flex-grow: 0;
+    }
+  }
+  label {
+    flex-grow: 1;
+  }
+  
+  .checkbox-row {
+    display: flex;
+  }
+  .button-row {
+    display: flex;
+    button {
+      flex-grow: 1;
     }
   }
 }
@@ -113,8 +170,18 @@ section {
 	span {
 
 	  $rad: 8px;
+
+	  font-size: 1rem;
 	  
 	  padding: 0 .4rem;
+
+	  &.artist-only-span {
+	    background: $col-white;
+	    border: 4px solid $col-white;
+	    border-radius: $rad;
+
+	    font-size: 2rem;
+	  }
 
 	  &.artist-span {
 	    background: $col-white;
@@ -149,10 +216,10 @@ section {
 
 
 footer {
-  position: fixed;
+  position: auto;
+  flex-grow: 0;
   bottom: 0;
-  width: 100vw;
-  margin: 0;
+  margin: 0.5rem;
   padding: 0;
 
   background: $col-white;

@@ -29,13 +29,15 @@ prevButton.addEventListener('click', prevResults);
 nextButton.addEventListener('click', nextResults);
 
 
-let pageNumber = 0;
+let pageNumber = 1;
 
 
 //** FETCHING
 async function fetchResults (e) {
   e.preventDefault();
 
+  clearResults();
+  
   let r = await fetch(composeSearchURL(inputField.value), {'User-Agent':'discsearcher/0.1'});
   //console.log(r.json());
   displayResults(await r.json());
@@ -61,7 +63,10 @@ function displayResults (js) {
     let spans;
     switch (r.type) {
     case 'artist':
-      a.innerText = r.title;
+      let sp = document.createElement('span');
+      sp.classList.add('artist-only-span');
+      sp.innerText = r.title;
+      a.appendChild(sp);
       li.appendChild(a);
       li.classList.add('artist-item');
       artistsList.appendChild(li);
@@ -91,7 +96,7 @@ function displayResults (js) {
 
 function prevResults (e) {
   clearResults();
-  if (pageNumber === 0) {
+  if (pageNumber === 1) {
     return;
   } else {
     pageNumber--;
