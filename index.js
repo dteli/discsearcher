@@ -7,8 +7,12 @@ const urlsuffix = '&key=JADuVvLxxccaBXBlejir&secret=oBpnLeMlpFmLGfKltCOwByNUvYAH
 
 //** DOCUMENT VARIABLE GRABS
 const inputField = document.getElementById('input-field');
+const artistCheckbox = document.getElementById('artist-checkbox');
+const releaseCheckbox = document.getElementById('release-checkbox');
 const submitButton = document.getElementById('submit-button');
 const clearButton = document.getElementById('clear-results-button');
+const prevButton = document.getElementById('previous-page-b');
+const nextButton = document.getElementById('next-page-b');
 const searchForm = document.getElementById('search-form');
 
 const artistsSection = document.getElementById('artists');
@@ -21,16 +25,20 @@ const releasesList = document.getElementById('releases-list');
 //** EVENT LISTENERS
 searchForm.addEventListener('submit', fetchResults);
 clearButton.addEventListener('click', clearResults);
+prevButton.addEventListener('click', prevResults);
+nextButton.addEventListener('click', nextResults);
 
+
+let pageNumber = 0;
 
 
 //** FETCHING
-function fetchResults (e) {
+async function fetchResults (e) {
   e.preventDefault();
 
-  fetch(composeURL(inputField.value), {'User-Agent':'discsearcher/0.1'})
-    .then(r => r.json())
-    .then(js => displayResults(js))
+  let r = await fetch(composeSearchURL(inputField.value), {'User-Agent':'discsearcher/0.1'});
+  //console.log(r.json());
+  displayResults(await r.json());
 
 }
 
@@ -81,6 +89,33 @@ function displayResults (js) {
 
 }
 
+function prevResults (e) {
+  clearResults();
+  if (pageNumber === 0) {
+    return;
+  } else {
+    pageNumber--;
+    fetchResults(e);
+  }
+}
+
+function nextResults (e) {
+  clearResults();
+  pageNumber++;
+  fetchResults(e);
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 function displayRelease (js) {
@@ -94,7 +129,13 @@ function displayRelease (js) {
 
 //** OTHER FUNCTIONS
 
-const composeURL = term => baseapiurl + '/database/search?q='+ term + urlsuffix;
+const composeSearchURL = term => {
+  let page = pageNumber !== 0 ? '&page=' + pageNumber : '';
+  console.log(page);
+  let typeSuffix = artistCheckbox.checked === true ? '&type=artist' :
+      releaseCheckbox.checked === true ? '&type=release' : '';
+  return baseapiurl + '/database/search?q='+ term + typeSuffix + page + urlsuffix;
+}
 
 function composeSearchSpecs () {
 }
