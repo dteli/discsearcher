@@ -18,8 +18,16 @@
 	<form id="search-form">
 	  <input id="input-field" placeholder="term goes here" />
 	  <div class="checkbox-row">
-	    <input type="checkbox" class="checkbox" id="artist-checkbox" /><label>Artist</label>
-	    <input type="checkbox" class="checkbox" id="release-checkbox" /><label>Releases</label>
+	    <label class="checkbox-single-label">
+	      <input type="checkbox" class="checkbox" id="artist-checkbox" />
+	      <span class="check-span"></span>
+	      <p>artists</p>
+	    </label>
+	    <label class="checkbox-single-label">
+	      <input type="checkbox" class="checkbox" id="release-checkbox" />
+	      <span class="check-span"></span>
+	      <p>releases</p>
+	    </label>
 	  </div>
 	  <div class="button-row"><button id="submit-button" type="submit">search</button></div>
 	  <div class="button-row">
@@ -30,7 +38,7 @@
 	  
 	</form>
 	<div class="lhs-spacer"></div>
-	<footer>v0.1 copyright two thousand nineteen Eli T. Drumm using the Discogs API and all that</footer>
+	<footer>v0.2 copyright two thousand nineteen Eli T. Drumm using the Discogs API and all that</footer>
       </div>
     </div>
     <div id="rhs">

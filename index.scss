@@ -11,6 +11,7 @@ $col-white: #eee;
 
 * {
   box-sizing: border-box;
+  //transition: 250ms;
 }
 
 html {
@@ -21,14 +22,16 @@ body {
   margin: 0;
   padding: 0;
   display: flex;
+  //transition: 250ms;
 
   #lhs {
     display: flex;
     flex-direction: column;
     
-    flex-grow: 1;
-    flex-basis: 0;
+    flex-grow: 3;
+    flex-basis: auto;
     min-height: 100vh;
+    transition: 400ms;
 
     border-right: 2px solid $col-black;
 
@@ -60,7 +63,12 @@ body {
 
   
   #rhs {
-    flex-grow: 3;
+    //display: none;
+    //flex-grow: 3;
+    width: 0;
+    flex-grow: 0;
+    flex-basis: 0;
+    transition: 400ms;
   }
 
   background: $col-white;
@@ -89,28 +97,129 @@ p {
 
 form {
   margin: 1rem;
-  
+
+ 
   input {
     flex-grow: 1;
     width: 100%;
     font-size: 1.6rem;
-    &.checkbox {
-      flex-grow: 0;
+
+    &[type=checkbox] {
+      opacity: 0;
+      height: 0;
+      width: 0;
+      cursor: pointer;
+      
+      margin: 0 0 0 2rem;
+      width: 1rem;
+    }
+
+    
+    & .checkbox {
+      
+      &:hover {
+	background: #aef;
+      }
+      
+      &:checked {
+	background: turquoise;
+      }
+      
+      &:after {
+	content: "";
+	position: absolute;
+	display: block;
+      }
     }
   }
+
+  .checkbox-single-label {
+    display: block;
+    margin: .6rem 3rem 1.2rem 0;
+    flex-grow: 0;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    transition: 250ms;
+
+    p {
+      margin: 0;
+      display: inline-block;
+    }
+
+    .check-span {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 2rem;
+      width: 2rem;
+      background: $col-black;
+
+      &:after {
+	content: "";
+	position: absolute;
+	display: none;
+
+	left: 14px;
+	top: 5px;
+	width: 10px;
+	height: 20px;
+	border: solid white;
+	border-width: 0 3px 3px 0;
+	transform: rotate(45deg);
+
+	transition: 250ms;
+      }
+    }
+
+    &:hover .check-span {
+      background: $col-blue;
+    }
+
+    input:checked ~ .check-span {
+      background: turquoise;
+    }
+    input:checked ~ .check-span:after {
+      display: block;
+    }
+      
+  }
+    
+  
   label {
     flex-grow: 1;
+  }
+
+  button {
+    background: $col-orange;
+    border: 2px solid $col-black;
+    transition: 250ms;
+    height: 3rem;
+
+    font-size: 1.6rem;
+    
+    &:hover {
+      color: $col-white;
+      background: turquoise;
+    }
   }
   
   .checkbox-row {
     display: flex;
+    justify-content: flex-start;
+    margin: 1rem auto;
   }
+  .checkbox-single-div {
+
+  }
+  
   .button-row {
     display: flex;
     button {
       flex-grow: 1;
     }
   }
+
 }
 
 section {
@@ -144,7 +253,7 @@ section {
       transition: 500ms;
 
       &:hover {
-	background: $col-yellow;
+	background: $col-orange;
 	// transition: 500ms
 	img {
 	  display: block;
@@ -205,8 +314,9 @@ section {
 	display: none;
 	visibility: hidden;
 	position: relative;
+	transition: 250ms;
 	
-	border: 1rem solid $col-yellow;
+	border: 1rem solid $col-orange;
       }
     }
     

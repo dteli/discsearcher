@@ -17,9 +17,10 @@ body {
 body #lhs {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-  flex-basis: 0;
+  flex-grow: 3;
+  flex-basis: auto;
   min-height: 100vh;
+  transition: 400ms;
   border-right: 2px solid #222;
 }
 body #lhs #ulhs {
@@ -38,7 +39,10 @@ body #lhs #llhs {
   flex-grow: 1;
 }
 body #rhs {
-  flex-grow: 3;
+  width: 0;
+  flex-grow: 0;
+  flex-basis: 0;
+  transition: 400ms;
 }
 body h1 {
   margin: 0;
@@ -66,14 +70,86 @@ form input {
   width: 100%;
   font-size: 1.6rem;
 }
-form input.checkbox {
+form input[type=checkbox] {
+  opacity: 0;
+  height: 0;
+  width: 0;
+  cursor: pointer;
+  margin: 0 0 0 2rem;
+  width: 1rem;
+}
+form input .checkbox:hover {
+  background: #aef;
+}
+form input .checkbox:checked {
+  background: turquoise;
+}
+form input .checkbox:after {
+  content: "";
+  position: absolute;
+  display: block;
+}
+form .checkbox-single-label {
+  display: block;
+  margin: 0.6rem 3rem 1.2rem 0;
   flex-grow: 0;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  transition: 250ms;
+}
+form .checkbox-single-label p {
+  margin: 0;
+  display: inline-block;
+}
+form .checkbox-single-label .check-span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2rem;
+  width: 2rem;
+  background: #222;
+}
+form .checkbox-single-label .check-span:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 14px;
+  top: 5px;
+  width: 10px;
+  height: 20px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+  transition: 250ms;
+}
+form .checkbox-single-label:hover .check-span {
+  background: #303090;
+}
+form .checkbox-single-label input:checked ~ .check-span {
+  background: turquoise;
+}
+form .checkbox-single-label input:checked ~ .check-span:after {
+  display: block;
 }
 form label {
   flex-grow: 1;
 }
+form button {
+  background: #e04010;
+  border: 2px solid #222;
+  transition: 250ms;
+  height: 3rem;
+  font-size: 1.6rem;
+}
+form button:hover {
+  color: #eee;
+  background: turquoise;
+}
 form .checkbox-row {
   display: flex;
+  justify-content: flex-start;
+  margin: 1rem auto;
 }
 form .button-row {
   display: flex;
@@ -114,7 +190,7 @@ section ul li {
   transition: 500ms;
 }
 section ul li:hover {
-  background: #a0a010;
+  background: #e04010;
 }
 section ul li:hover img {
   display: block;
@@ -164,7 +240,8 @@ section ul li img {
   display: none;
   visibility: hidden;
   position: relative;
-  border: 1rem solid #a0a010;
+  transition: 250ms;
+  border: 1rem solid #e04010;
 }
 
 footer {

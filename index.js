@@ -6,6 +6,9 @@ const urlsuffix = '&key=JADuVvLxxccaBXBlejir&secret=oBpnLeMlpFmLGfKltCOwByNUvYAH
 // const testurl = baseurl + '/artists/548616/releases'
 
 //** DOCUMENT VARIABLE GRABS
+const lhs = document.getElementById('lhs');
+const rhs = document.getElementById('rhs');
+
 const inputField = document.getElementById('input-field');
 const artistCheckbox = document.getElementById('artist-checkbox');
 const releaseCheckbox = document.getElementById('release-checkbox');
@@ -24,9 +27,13 @@ const releasesList = document.getElementById('releases-list');
 
 //** EVENT LISTENERS
 searchForm.addEventListener('submit', fetchResults);
-clearButton.addEventListener('click', clearResults);
+clearButton.addEventListener('click', clearButtonFunction);
 prevButton.addEventListener('click', prevResults);
 nextButton.addEventListener('click', nextResults);
+artistCheckbox.addEventListener('change', function (e) {
+  if (this.checked) { releaseCheckbox.checked = false; }});
+releaseCheckbox.addEventListener('change', function(e) {
+  if (this.checked) { artistCheckbox.checked = false; }});
 
 
 let pageNumber = 1;
@@ -50,7 +57,13 @@ async function fetchResults (e) {
 
 
 function displayResults (js) {
-  console.log(js.results);
+  
+  lhs.style.flexGrow = '0';
+  lhs.style.flexBasis = '0';
+  rhs.style.display = 'block';
+  rhs.style.flexGrow = '3';
+  rhs.style.flexBasis = 'auto';
+  
   for (let r of js.results) {
     let li = document.createElement('li');
     let a = document.createElement('a');
@@ -136,7 +149,6 @@ function displayRelease (js) {
 
 const composeSearchURL = term => {
   let page = pageNumber !== 0 ? '&page=' + pageNumber : '';
-  console.log(page);
   let typeSuffix = artistCheckbox.checked === true ? '&type=artist' :
       releaseCheckbox.checked === true ? '&type=release' : '';
   return baseapiurl + '/database/search?q='+ term + typeSuffix + page + urlsuffix;
@@ -149,6 +161,16 @@ function clearResults () {
   [...artistsList.children].forEach(y => artistsList.removeChild(y));
   [...mastersList.children].forEach(y => mastersList.removeChild(y));
   [...releasesList.children].forEach(y => releasesList.removeChild(y));
+  lhs.style.flexGrow = '3';
+  lhs.style.flexBasis = 'auto';
+  rhs.style.flexGrow = '0';
+  rhs.style.flexBasis = '0';
+}
+
+function clearButtonFunction () {
+  clearResults();
+  pageNumber = 1;
+  inputField.value = '';
 }
 
 
