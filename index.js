@@ -1,13 +1,33 @@
 
+//** FUNCTION ALIASES
+const dGEBI = x => document.getElementById(x);
+const dCE = x => document.createElement(x);
+
+
 //** CONSTANTS
 const baseurl = 'https://www.discogs.com';
 const baseapiurl = 'https://api.discogs.com';
-const urlsuffix = '&key=JADuVvLxxccaBXBlejir&secret=oBpnLeMlpFmLGfKltCOwByNUvYAHixBB';
-// const testurl = baseurl + '/artists/548616/releases'
+const authKey = 'JADuVvLxxccaBXBlejir';
+const authSecret = 'oBpnLeMlpFmLGfKltCOwByNUvYAHixBB';
+const authSuffix = `&key=${authKey}&secret=${authSecret}`;
+const testurl = baseurl + '/artists/548616/releases'
+const fetchHeader = {
+  headers: {
+    'User-Agent':'discsearcher/0.1',
+    'Authorization': `Discogs key=${authKey}, secret=${authSecret}`,
+  }
+};
+//const fetchHeader = new Headers();
+
+console.log(authSuffix);
+console.log(fetchHeader);
 
 //** DOCUMENT VARIABLE GRABS
 const lhs = document.getElementById('lhs');
+const ulhs = document.getElementById('ulhs');
+const llhs = document.getElementById('llhs');
 const rhs = document.getElementById('rhs');
+const qhs = document.getElementById('qhs');
 
 const inputField = document.getElementById('input-field');
 const artistCheckbox = document.getElementById('artist-checkbox');
@@ -25,6 +45,14 @@ const mastersList = document.getElementById('masters-list');
 const releasesSection = document.getElementById('releases');
 const releasesList = document.getElementById('releases-list');
 
+const qhsEls = {
+  h2: dGEBI('q-header'),
+  img: dGEBI('q-cover-image'),
+  labelAndYear: dGEBI('q-label-year'),
+  tracklist: dGEBI('q-tracklist')
+};
+
+
 //** EVENT LISTENERS
 searchForm.addEventListener('submit', fetchResults);
 clearButton.addEventListener('click', clearButtonFunction);
@@ -36,6 +64,7 @@ releaseCheckbox.addEventListener('change', function(e) {
   if (this.checked) { artistCheckbox.checked = false; }});
 
 
+
 let pageNumber = 1;
 
 
@@ -45,7 +74,7 @@ async function fetchResults (e) {
 
   clearResults();
   
-  let r = await fetch(composeSearchURL(inputField.value), {'User-Agent':'discsearcher/0.1'});
+  let r = await fetch(composeSearchURL(inputField.value), fetchHeader);
   //console.log(r.json());
   displayResults(await r.json());
 
@@ -57,6 +86,8 @@ async function fetchResults (e) {
 
 
 function displayResults (js) {
+
+  //console.log(js.results);
   
   lhs.style.flexGrow = '0';
   lhs.style.flexBasis = '0';
@@ -66,10 +97,15 @@ function displayResults (js) {
   
   for (let r of js.results) {
     let li = document.createElement('li');
-    let a = document.createElement('a');
+    let s = document.createElement('span');
+    let discUrl = document.createElement('span');
     let coverImg = document.createElement('img');
     
-    a.href = baseurl + r.uri;
+    li.addEventListener('click', fetchAndDisplayItem);
+    s.classList.add('result-item-span');
+    discUrl.classList.add('disc-url');
+    discUrl.innerText = r.resource_url;
+    li.discUrl = r.resource_url;
     li.classList.add('result-item');
     coverImg.classList.add('cover-image');
     coverImg.src = r.cover_image;
@@ -79,30 +115,31 @@ function displayResults (js) {
       let sp = document.createElement('span');
       sp.classList.add('artist-only-span');
       sp.innerText = r.title;
-      a.appendChild(sp);
-      li.appendChild(a);
+      s.appendChild(sp);
+      li.appendChild(s);
       li.classList.add('artist-item');
       artistsList.appendChild(li);
       break;
     case 'master':
       spans = splitArtistAlbumIntoElements(r.title);
-      a.appendChild(spans[0]);
-      a.appendChild(spans[1]);
-      li.appendChild(a);
+      s.appendChild(spans[0]);
+      s.appendChild(spans[1]);
+      li.appendChild(s);
       li.classList.add('master-item');
       mastersList.appendChild(li);
       break;
     case 'release':
       spans = splitArtistAlbumIntoElements(r.title);
-      a.appendChild(spans[0]);
-      a.appendChild(spans[1]);
-      li.appendChild(a);
+      s.appendChild(spans[0]);
+      s.appendChild(spans[1]);
+      li.appendChild(s);
       li.classList.add('release-item');
       releasesList.appendChild(li);
       break;
 
     }
-    a.appendChild(coverImg);
+    li.appendChild(discUrl);
+    s.appendChild(coverImg);
   }
 
 }
@@ -125,22 +162,103 @@ function nextResults (e) {
 }
 
 
+async function fetchAndDisplayItem (e) {
+  qhsClear();
+  
+  let t = e.target;
+  while (t.tagName != 'LI') {
+    t = t.parentElement;
+  }
+  //console.log(t.discUrl + authSuffix);
+  let r = await fetch(t.discUrl, fetchHeader);
+  let js = await r.json();
 
+  openQhs();
+  
+  console.log(js);
 
-
-
-
-
-
-
-
-
-
-function displayRelease (js) {
+  if (js.releases_url) {
+    displayArtist(js);
+  } else if (js.tracklist) {
+    displayRelease(js);
+  }
+  
 
 }
 
+function displayArtist (js) {
+  let h2 = dGEBI('q-header');   h2.innerText = js.name;
+  let img = dGEBI('q-cover-image');   img.src = js.images[0].resource_url;
 
+  
+  // fetch and display releases
+
+  return;
+}
+
+
+function displayRelease (js) { 
+  qhsEls.h2.innerText = js.title;
+  qhsEls.img.src = js.images[0].resource_url;
+  qhsEls.labelAndYear.innerText = `${js.labels[0].name}, ${js.year}`
+  for (let t of js.tracklist) {
+    let tLi = dCE('li');
+    tLi.classList.add('track-item');
+    let tPos = dCE('span');          let tTitle = dCE('span');            let tDur = dCE('span');
+    tPos.innerText = t.position;     tTitle.innerText = t.title;          tDur.innerText = t.duration;
+    tPos.classList.add('track-pos'); tTitle.classList.add('track-title'); tDur.classList.add('track-dur');
+    tLi.appendChild(tPos);           tLi.appendChild(tTitle);             tLi.appendChild(tDur);
+    qhsEls.tracklist.appendChild(tLi);
+  }
+  // console.log(tracklist);
+
+  // qhs.appendChild(h2);
+  // qhs.appendChild(img);
+  // qhs.appendChild(labelAndYear);
+  // qhs.appendChild(tracklist);
+  
+
+  return;
+}
+
+
+
+
+
+//** OPENING/CLOSING xHS
+
+function openQhs () {
+  qhs.style.flexGrow = '3';
+  //qhs.style.flexBasis = 'auto';
+  lhs.style.flexGrow = '0';
+  lhs.style.width = '1rem';
+  lhs.addEventListener('mouseover', closeQhs);
+  llhs.style.flexGrow = 0;
+  document.querySelector('h1').style.display = 'none';
+  document.querySelector('form').style.display = 'none';
+  document.querySelector('footer').style.display = 'none';
+}
+
+function closeQhs (e) {
+  qhs.style.flexGrow = '0';
+  lhs.style.flexGrow = '0';
+  lhs.style.width = 'auto';
+  lhs.removeEventListener('mouseover', closeQhs);
+  llhs.style.flexGrow = 1;
+  document.querySelector('h1').style.display = 'block';
+  document.querySelector('form').style.display = 'block';
+  document.querySelector('footer').style.display = 'block';
+}
+
+function qhsClear () {
+  qhsEls.h2.innerHTML = '';
+  qhsEls.img.src = '';
+  qhsEls.labelAndYear.innerHTML = '';
+  // while (qhsEls.tracklist.firstChild) {
+  //   qhsEls.tracklist.removeChild(qhsEls.tracklist.firstChild)
+  // }
+  [...qhsEls.tracklist.children].forEach(y => qhsEls.tracklist.removeChild(y));
+}
 
 
 
@@ -151,7 +269,7 @@ const composeSearchURL = term => {
   let page = pageNumber !== 0 ? '&page=' + pageNumber : '';
   let typeSuffix = artistCheckbox.checked === true ? '&type=artist' :
       releaseCheckbox.checked === true ? '&type=release' : '';
-  return baseapiurl + '/database/search?q='+ term + typeSuffix + page + urlsuffix;
+  return baseapiurl + '/database/search?q='+ term + typeSuffix + page + authSuffix;
 }
 
 function composeSearchSpecs () {
@@ -165,6 +283,8 @@ function clearResults () {
   lhs.style.flexBasis = 'auto';
   rhs.style.flexGrow = '0';
   rhs.style.flexBasis = '0';
+
+  qhsClear();
 }
 
 function clearButtonFunction () {

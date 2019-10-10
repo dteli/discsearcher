@@ -71,6 +71,14 @@ body {
     transition: 400ms;
   }
 
+  #qhs {
+    width: 0;
+    flex-grow: 0;
+    flex-basis: 0;
+    transition: 400ms;
+    border-left: 2px solid $col-black;
+  }
+
   background: $col-white;
 
   font-family: Lato, sans-serif;
@@ -272,7 +280,7 @@ section {
 	}
       }
 
-      a {
+      span {
 	text-decoration: none;
 	color: $col-black;
 
@@ -308,6 +316,7 @@ section {
 	    border-bottom-right-radius: $rad;
 	  }
 	}
+
       }
 
       img {
@@ -319,9 +328,68 @@ section {
 	border: 1rem solid $col-orange;
       }
     }
+
+    
+    .disc-url {
+      display: none;
+    }
     
   }
 
+}
+
+#qhs {
+  h2 {
+    font-size: 4rem;
+    font-style: italic;
+    font-weight: bold;
+  }
+
+  img#q-cover-image {
+    display: block;
+    margin: 1rem auto;
+  }
+
+  p {
+    display: block;
+    margin: 1rem auto;
+    padding: 0 2rem;
+    text-align: right;
+    font-size: 2rem;
+  }
+
+  ol {
+    margin: 1rem 2rem;
+    padding: 0;
+    list-style-type: none;
+    
+    li {
+      display: flex;
+      font-size: 1.6rem;
+      border: 2px solid $col-black;
+      
+      
+      span {
+	display: inline-block;
+	padding: 0 1.6rem;
+	
+      
+	&.track-pos {
+	  background: $col-black;
+	  color: $col-white;
+	}
+	&.track-title {
+	  flex-grow: 1;
+	  background: $col-white;
+	  color: $col-black;
+	}
+	&.track-dur {
+	  background: $col-black;
+	  color: $col-white;
+	}
+      }
+    }
+  }
 }
 
 

@@ -44,6 +44,13 @@ body #rhs {
   flex-basis: 0;
   transition: 400ms;
 }
+body #qhs {
+  width: 0;
+  flex-grow: 0;
+  flex-basis: 0;
+  transition: 400ms;
+  border-left: 2px solid #222;
+}
 body h1 {
   margin: 0;
   padding: 0 1rem;
@@ -207,28 +214,28 @@ section ul li:hover .release-span {
   color: #222;
   border-color: #eee;
 }
-section ul li a {
+section ul li span {
   text-decoration: none;
   color: #222;
 }
-section ul li a span {
+section ul li span span {
   font-size: 1rem;
   padding: 0 0.4rem;
 }
-section ul li a span.artist-only-span {
+section ul li span span.artist-only-span {
   background: #eee;
   border: 4px solid #eee;
   border-radius: 8px;
   font-size: 2rem;
 }
-section ul li a span.artist-span {
+section ul li span span.artist-span {
   background: #eee;
   color: #222;
   border: 4px solid #eee;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
 }
-section ul li a span.release-span {
+section ul li span span.release-span {
   font-style: italic;
   background: #222;
   color: #eee;
@@ -242,6 +249,53 @@ section ul li img {
   position: relative;
   transition: 250ms;
   border: 1rem solid #e04010;
+}
+section ul .disc-url {
+  display: none;
+}
+
+#qhs h2 {
+  font-size: 4rem;
+  font-style: italic;
+  font-weight: bold;
+}
+#qhs img#q-cover-image {
+  display: block;
+  margin: 1rem auto;
+}
+#qhs p {
+  display: block;
+  margin: 1rem auto;
+  padding: 0 2rem;
+  text-align: right;
+  font-size: 2rem;
+}
+#qhs ol {
+  margin: 1rem 2rem;
+  padding: 0;
+  list-style-type: none;
+}
+#qhs ol li {
+  display: flex;
+  font-size: 1.6rem;
+  border: 2px solid #222;
+}
+#qhs ol li span {
+  display: inline-block;
+  padding: 0 1.6rem;
+}
+#qhs ol li span.track-pos {
+  background: #222;
+  color: #eee;
+}
+#qhs ol li span.track-title {
+  flex-grow: 1;
+  background: #eee;
+  color: #222;
+}
+#qhs ol li span.track-dur {
+  background: #222;
+  color: #eee;
 }
 
 footer {
