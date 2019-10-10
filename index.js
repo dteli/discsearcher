@@ -32,7 +32,6 @@ function fetchResults (e) {
     .then(r => r.json())
     .then(js => displayResults(js))
 
-
 }
 
 
@@ -45,9 +44,12 @@ function displayResults (js) {
   for (let r of js.results) {
     let li = document.createElement('li');
     let a = document.createElement('a');
+    let coverImg = document.createElement('img');
     
     a.href = baseurl + r.uri;
     li.classList.add('result-item');
+    coverImg.classList.add('cover-image');
+    coverImg.src = r.cover_image;
     let spans;
     switch (r.type) {
     case 'artist':
@@ -74,9 +76,18 @@ function displayResults (js) {
       break;
 
     }
+    a.appendChild(coverImg);
   }
 
 }
+
+
+
+function displayRelease (js) {
+
+}
+
+
 
 
 

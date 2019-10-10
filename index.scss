@@ -77,10 +77,24 @@ section {
       padding: .4rem;
       background: $col-orange;
       display: inline-block;
+      transition: 500ms;
 
       &:hover {
 	background: $col-yellow;
-	transition: 500ms;
+	// transition: 500ms
+	img {
+	  display: block;
+	  position: absolute;
+	  visibility: visible;
+	}
+	.artist-span {
+	  background: $col-black;
+	  color: $col-white;
+	}
+	.release-span {
+	  background: $col-white;
+	  color: $col-black;
+	}
       }
 
       a {
@@ -100,6 +114,14 @@ section {
 	    color: $col-white;
 	  }
 	}
+      }
+
+      img {
+	display: none;
+	visibility: hidden;
+	position: relative;
+	
+	border: 1rem solid $col-yellow;
       }
     }
     

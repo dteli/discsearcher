@@ -64,10 +64,23 @@ section ul li {
   padding: 0.4rem;
   background: #e04010;
   display: inline-block;
+  transition: 500ms;
 }
 section ul li:hover {
   background: #a0a010;
-  transition: 500ms;
+}
+section ul li:hover img {
+  display: block;
+  position: absolute;
+  visibility: visible;
+}
+section ul li:hover .artist-span {
+  background: #222;
+  color: #eee;
+}
+section ul li:hover .release-span {
+  background: #eee;
+  color: #222;
 }
 section ul li a {
   text-decoration: none;
@@ -84,6 +97,12 @@ section ul li a span.release-span {
   font-style: italic;
   background: #222;
   color: #eee;
+}
+section ul li img {
+  display: none;
+  visibility: hidden;
+  position: relative;
+  border: 1rem solid #a0a010;
 }
 
 footer {
