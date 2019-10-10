@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>api</title>
+    <link href="index.css" rel="stylesheet">
+    
+  </head>
+  <body>
+    <h1><span class="c-red">disc</span><span class="c-green">search</span><span class="c-blue">er</span></h1>
+    <p>Type search and submit. Clear to clear.</p>
+
+    <form id="search-form">
+      <input id="input-field" placeholder="term goes here" />
+      <input type="checkbox" class="checkbox" id="artist-checkbox" /><label>Artist</label>
+      <input type="checkbox" class="checkbox" id="release-checkbox" /><label>Releases</label>
+      <button id="submit-button" type="submit">search</button>
+      <button id="clear-results-button" type="button">clear</button>
+    </form>
+
+    <section id="artists">
+      <h2>Artists</h2>
+      <ul id="artists-list">
+      </ul>
+    </section>
+    <section id="masters">
+      <h2>Master Releases</h2>
+      <ul id="masters-list">
+      </ul>
+    </section>
+    <section id="releases">
+      <h2>Releases</h2>
+      <ul id="releases-list">
+      </ul>
+    </section>
+
+    <footer>v0.1 copyright two thousand nineteen Eli T. Drumm using the Discogs API and all that</footer>
+    
+    <script src="index.js"></script>
+  </body>
+</html>

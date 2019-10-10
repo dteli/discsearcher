@@ -1,0 +1,111 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:400,400i,700|Oswald:400,700&display=swap");
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #eee;
+  font-family: Lato, sans-serif;
+}
+body h1 {
+  margin: 0;
+  background: #e04010;
+  font-size: 3rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 1rem;
+  font-family: Oswald, sans-serif;
+  text-transform: uppercase;
+}
+
+p {
+  margin: 1rem;
+}
+
+form {
+  display: flex;
+}
+form input {
+  flex-grow: 1;
+}
+form input.checkbox {
+  flex-grow: 0;
+}
+
+section {
+  margin: 0;
+  padding: 0;
+}
+section#artists {
+  background: #903030;
+}
+section#masters {
+  background: #309030;
+}
+section#releases {
+  background: #303090;
+}
+section h2 {
+  margin: 0;
+  padding: 0.4rem 1rem;
+  font-size: 1rem;
+  color: #eee;
+}
+section ul {
+  margin: 0 1rem;
+  padding: 0;
+  list-style-type: none;
+}
+section ul li {
+  margin: 0.6rem;
+  padding: 0.4rem;
+  background: #e04010;
+  display: inline-block;
+}
+section ul li:hover {
+  background: #a0a010;
+  transition: 500ms;
+}
+section ul li a {
+  text-decoration: none;
+  color: #222;
+}
+section ul li a span {
+  padding: 0 0.4rem;
+}
+section ul li a span.artist-span {
+  background: #eee;
+  color: #222;
+}
+section ul li a span.release-span {
+  font-style: italic;
+  background: #222;
+  color: #eee;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  background: #eee;
+  font-size: 80%;
+}
+
+.c-red {
+  color: #903030;
+}
+
+.c-green {
+  color: #309030;
+}
+
+.c-blue {
+  color: #303090;
+}
+
+/*# sourceMappingURL=index.css.map */
