@@ -17,33 +17,32 @@ const fetchHeader = {
     'Authorization': `Discogs key=${authKey}, secret=${authSecret}`,
   }
 };
-//const fetchHeader = new Headers();
 
 console.log(authSuffix);
 console.log(fetchHeader);
 
 //** DOCUMENT VARIABLE GRABS
-const lhs = document.getElementById('lhs');
-const ulhs = document.getElementById('ulhs');
-const llhs = document.getElementById('llhs');
-const rhs = document.getElementById('rhs');
-const qhs = document.getElementById('qhs');
+const lhs = dGEBI('lhs');
+const ulhs = dGEBI('ulhs');
+const llhs = dGEBI('llhs');
+const rhs = dGEBI('rhs');
+const qhs = dGEBI('qhs');
 
-const inputField = document.getElementById('input-field');
-const artistCheckbox = document.getElementById('artist-checkbox');
-const releaseCheckbox = document.getElementById('release-checkbox');
-const submitButton = document.getElementById('submit-button');
-const clearButton = document.getElementById('clear-results-button');
-const prevButton = document.getElementById('previous-page-b');
-const nextButton = document.getElementById('next-page-b');
-const searchForm = document.getElementById('search-form');
+const inputField = dGEBI('input-field');
+const artistCheckbox = dGEBI('artist-checkbox');
+const releaseCheckbox = dGEBI('release-checkbox');
+const submitButton = dGEBI('submit-button');
+const clearButton = dGEBI('clear-results-button');
+const prevButton = dGEBI('previous-page-b');
+const nextButton = dGEBI('next-page-b');
+const searchForm = dGEBI('search-form');
 
-const artistsSection = document.getElementById('artists');
-const artistsList = document.getElementById('artists-list');
-const mastersSection = document.getElementById('masters');
-const mastersList = document.getElementById('masters-list');
-const releasesSection = document.getElementById('releases');
-const releasesList = document.getElementById('releases-list');
+const artistsSection = dGEBI('artists');
+const artistsList = dGEBI('artists-list');
+const mastersSection = dGEBI('masters');
+const mastersList = dGEBI('masters-list');
+const releasesSection = dGEBI('releases');
+const releasesList = dGEBI('releases-list');
 
 const qhsEls = {
   h2: dGEBI('q-header'),
@@ -96,10 +95,10 @@ function displayResults (js) {
   rhs.style.flexBasis = 'auto';
   
   for (let r of js.results) {
-    let li = document.createElement('li');
-    let s = document.createElement('span');
-    let discUrl = document.createElement('span');
-    let coverImg = document.createElement('img');
+    let li = dCE('li');
+    let s = dCE('span');
+    let discUrl = dCE('span');
+    let coverImg = dCE('img');
     
     li.addEventListener('click', fetchAndDisplayItem);
     s.classList.add('result-item-span');
@@ -112,7 +111,7 @@ function displayResults (js) {
     let spans;
     switch (r.type) {
     case 'artist':
-      let sp = document.createElement('span');
+      let sp = dCE('span');
       sp.classList.add('artist-only-span');
       sp.innerText = r.title;
       s.appendChild(sp);
@@ -187,7 +186,7 @@ async function fetchAndDisplayItem (e) {
 }
 
 function displayArtist (js) {
-  let h2 = dGEBI('q-header');   h2.innerText = js.name;
+  let h2 = dGEBI('q-header');         h2.innerText = js.name;
   let img = dGEBI('q-cover-image');   img.src = js.images[0].resource_url;
 
   
@@ -210,14 +209,7 @@ function displayRelease (js) {
     tLi.appendChild(tPos);           tLi.appendChild(tTitle);             tLi.appendChild(tDur);
     qhsEls.tracklist.appendChild(tLi);
   }
-  // console.log(tracklist);
-
-  // qhs.appendChild(h2);
-  // qhs.appendChild(img);
-  // qhs.appendChild(labelAndYear);
-  // qhs.appendChild(tracklist);
   
-
   return;
 }
 
@@ -270,7 +262,7 @@ const composeSearchURL = term => {
   let typeSuffix = artistCheckbox.checked === true ? '&type=artist' :
       releaseCheckbox.checked === true ? '&type=release' : '';
   return baseapiurl + '/database/search?q='+ term + typeSuffix + page + authSuffix;
-}
+};
 
 function composeSearchSpecs () {
 }
@@ -297,8 +289,8 @@ function clearButtonFunction () {
 function splitArtistAlbumIntoElements (aa) {
   let artistText = aa.split(' - ')[0];
   let releaseText = aa.split(' - ')[1];
-  let artistSpan = document.createElement('span');
-  let releaseSpan = document.createElement('span');
+  let artistSpan = dCE('span');
+  let releaseSpan = dCE('span');
   artistSpan.classList.add('artist-span');
   releaseSpan.classList.add('release-span');
   artistSpan.innerText = artistText;
